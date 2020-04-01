@@ -127,4 +127,83 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $items[0]->sell_in);
         $this->assertEquals(0, $items[0]->quality);
     }
+
+    /*
+        “Backstage passes”, like aged brie,
+        increases in Quality as it’s SellIn value approaches;
+        Quality increases by 2 when there are 10 days or less
+        and by 3 when there are 5 days or less
+        but Quality drops to 0 after the concert
+     */
+    function test_updates_backstage_items_before_the_sell_date()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 20, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(19, $items[0]->sell_in);
+        $this->assertEquals(16, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_before_the_sell_date_with_maxima_quality()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 20, 50)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(19, $items[0]->sell_in);
+        $this->assertEquals(50, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_near_the_sell_date()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 10, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(9, $items[0]->sell_in);
+        $this->assertEquals(17, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_near_the_sell_date_with_a_near_maxima_quality()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(9, $items[0]->sell_in);
+        $this->assertEquals(50, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_vary_close_to_the_sell_date()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 5, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(4, $items[0]->sell_in);
+        $this->assertEquals(18, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_very_close_to_the_sell_date_with_a_near_maxima_quality()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(4, $items[0]->sell_in);
+        $this->assertEquals(50, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_on_the_sell_date()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 0, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-1, $items[0]->sell_in);
+        $this->assertEquals(0, $items[0]->quality);
+    }
+
+    function test_updates_backstage_items_after_the_sell_date()
+    {
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", -1, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-2, $items[0]->sell_in);
+        $this->assertEquals(0, $items[0]->quality);
+    }
 }
