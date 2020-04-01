@@ -21,6 +21,11 @@ final class GildedRose
                 continue;
             }
 
+            if($item->name === 'Aged Brie') {
+                $this->brieQualityUpdate($item);
+                continue;
+            }
+
             if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
                 if ($item->quality > 0) {
                     if ($item->name != 'Sulfuras, Hand of Ragnaros') {
@@ -78,9 +83,15 @@ final class GildedRose
             $item->quality -= 1;
         }
 
-        if ($item->quality <= 0) {
+        if ($item->quality < 0) {
             $item->quality = 0;
         }
+    }
+
+    private function brieQualityUpdate($item)
+    {
+        $item->sell_in -= 1;
+        $item->quality += 1;
     }
 }
 
