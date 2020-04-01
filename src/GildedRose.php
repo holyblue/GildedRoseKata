@@ -69,9 +69,10 @@ final class GildedRose
         }
     }
 
-    private function normalQualityUpdate($item)
+    private function normalQualityUpdate(Item $item)
     {
-
+        $item->sell_in -= 1;
+        $item->quality -= 1;
     }
 }
 
