@@ -4,7 +4,6 @@ namespace App;
 
 final class GildedRose
 {
-
     private $items = [];
 
     public function __construct($items)
@@ -24,6 +23,9 @@ final class GildedRose
                     break;
                 case 'Backstage passes to a TAFKAL80ETC concert':
                     $this->backstageQualityUpdate($item);
+                    break;
+                case 'Conjured':
+                    $this->conjuredQualityUpdate($item);
                     break;
                 default:
                     $this->normalQualityUpdate($item);
@@ -83,6 +85,20 @@ final class GildedRose
 
         if ($item->quality > 50) {
             $item->quality = 50;
+        }
+    }
+
+    private function conjuredQualityUpdate(Item $item)
+    {
+        $item->sell_in -= 1;
+        $item->quality -= 2;
+
+        if ($item->sell_in < 0) {
+            $item->quality -= 2;
+        }
+
+        if ($item->quality < 0) {
+            $item->quality = 0;
         }
     }
 }

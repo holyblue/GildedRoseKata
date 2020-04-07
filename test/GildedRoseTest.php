@@ -207,4 +207,45 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(-2, $items[0]->sell_in);
         $this->assertEquals(0, $items[0]->quality);
     }
+
+    /**
+     * test for new item Conjured
+     */
+    function test_updates_conjured_items_before_the_sell_date()
+    {
+        $items = [new Item("Conjured", 10, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals("Conjured", $items[0]->name);
+        $this->assertEquals(9, $items[0]->sell_in);
+        $this->assertEquals(13, $items[0]->quality);
+    }
+
+
+    function test_updates_conjured_items_on_the_sell_date()
+    {
+        $items = [new Item("Conjured", 0, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-1, $items[0]->sell_in);
+        $this->assertEquals(11, $items[0]->quality);
+    }
+
+    function test_updates_conjured_items_after_the_sell_date()
+    {
+        $items = [new Item("Conjured", -1, 15)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(-2, $items[0]->sell_in);
+        $this->assertEquals(11, $items[0]->quality);
+    }
+
+    function test_updates_conjured_items_with_a_quality_0()
+    {
+        $items = [new Item("Conjured", 1, 0)];
+        $gildedRose = new GildedRose($items);
+        $gildedRose->updateQuality();
+        $this->assertEquals(0, $items[0]->sell_in);
+        $this->assertEquals(0, $items[0]->quality);
+    }
 }
