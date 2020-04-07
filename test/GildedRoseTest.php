@@ -14,6 +14,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(14, $items[0]->quality);
     }
 
+
     function test_updates_normal_items_on_the_sell_date()
     {
         $items = [new Item("normal", 0, 15)];
