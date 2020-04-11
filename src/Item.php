@@ -2,7 +2,7 @@
 
 namespace App;
 
-final class Item {
+class Item {
 
     public $name;
     public $sell_in;
@@ -16,6 +16,20 @@ final class Item {
 
     public function __toString() {
         return "{$this->name}, {$this->sell_in}, {$this->quality}";
+    }
+
+    public function updateQuality()
+    {
+        $this->sell_in -= 1;
+        $this->quality -= 1;
+
+        if ($this->sell_in < 0) {
+            $this->quality -= 1;
+        }
+
+        if ($this->quality < 0) {
+            $this->quality = 0;
+        }
     }
 }
 

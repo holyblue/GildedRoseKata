@@ -47,7 +47,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
      */
     function test_updates_brie_items_before_the_sell_date()
     {
-        $items = [new Item("Aged Brie", 10, 15)];
+        $items = [new BrieItem("Aged Brie", 10, 15)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
         $this->assertEquals(9, $items[0]->sell_in);
@@ -56,7 +56,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
 
     function test_updates_brie_items_on_the_sell_date()
     {
-        $items = [new Item("Aged Brie", 0, 15)];
+        $items = [new BrieItem("Aged Brie", 0, 15)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
         $this->assertEquals(-1, $items[0]->sell_in);
@@ -65,7 +65,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
 
     function test_updates_brie_items_after_the_sell_date()
     {
-        $items = [new Item("Aged Brie", -1, 15)];
+        $items = [new BrieItem("Aged Brie", -1, 15)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
         $this->assertEquals(-2, $items[0]->sell_in);
@@ -74,7 +74,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
 
     function test_updates_brie_items_with_a_maxima_quality()
     {
-        $items = [new Item("Aged Brie", 1, 50)];
+        $items = [new BrieItem("Aged Brie", 1, 50)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
         $this->assertEquals(0, $items[0]->sell_in);
@@ -83,7 +83,7 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
 
     function test_updates_brie_items_after_the_sell_date_near_a_maxima_quality()
     {
-        $items = [new Item("Aged Brie", 0, 49)];
+        $items = [new BrieItem("Aged Brie", 0, 49)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
         $this->assertEquals(-1, $items[0]->sell_in);
@@ -156,11 +156,11 @@ class GildedRoseTest extends \PHPUnit\Framework\TestCase
 
     function test_updates_backstage_items_near_the_sell_date()
     {
-        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 10, 15)];
+        $items = [new Item("Backstage passes to a TAFKAL80ETC concert", 11, 10)];
         $gildedRose = new GildedRose($items);
         $gildedRose->updateQuality();
-        $this->assertEquals(9, $items[0]->sell_in);
-        $this->assertEquals(17, $items[0]->quality);
+        $this->assertEquals(10, $items[0]->sell_in);
+        $this->assertEquals(11, $items[0]->quality);
     }
 
     function test_updates_backstage_items_near_the_sell_date_with_a_near_maxima_quality()

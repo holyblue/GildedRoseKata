@@ -11,12 +11,16 @@ final class GildedRose
         $this->items = $items;
     }
 
+    public static function createItem($itemName)
+    {
+    }
+
     public function updateQuality()
     {
         foreach ($this->items as $item) {
             switch ($item->name) {
                 case 'Aged Brie':
-                    $this->brieQualityUpdate($item);
+                    $item->updateQuality();
                     break;
                 case 'Sulfuras, Hand of Ragnaros':
                     $this->sulfurasQualityUpdate($item);
@@ -25,25 +29,11 @@ final class GildedRose
                     $this->backstageQualityUpdate($item);
                     break;
                 case 'Conjured':
-                    $this->conjuredQualityUpdate($item);
+                    $item->conjuredQualityUpdate($item);
                     break;
                 default:
-                    $this->normalQualityUpdate($item);
+                    $item->updateQuality();
             }
-        }
-    }
-
-    private function normalQualityUpdate(Item $item)
-    {
-        $item->sell_in -= 1;
-        $item->quality -= 1;
-
-        if ($item->sell_in < 0) {
-            $item->quality -= 1;
-        }
-
-        if ($item->quality < 0) {
-            $item->quality = 0;
         }
     }
 
@@ -68,7 +58,6 @@ final class GildedRose
 
     private function backstageQualityUpdate($item)
     {
-        $item->sell_in -= 1;
         $item->quality += 1;
 
         if ($item->sell_in <= 10) {
@@ -86,6 +75,8 @@ final class GildedRose
         if ($item->quality > 50) {
             $item->quality = 50;
         }
+
+        $item->sell_in -= 1;
     }
 
     private function conjuredQualityUpdate(Item $item)
