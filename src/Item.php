@@ -4,12 +4,12 @@ namespace App;
 
 class Item {
 
-    public $name;
+    protected $name;
     public $sell_in;
     public $quality;
 
-    function __construct($name, $sell_in, $quality) {
-        $this->name    = $name;
+    function __construct($sell_in, $quality) {
+        $this->name = 'normal';
         $this->sell_in = $sell_in;
         $this->quality = $quality;
     }

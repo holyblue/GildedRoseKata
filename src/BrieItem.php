@@ -6,6 +6,12 @@ namespace App;
 
 class BrieItem extends Item
 {
+    public function __construct($sell_in, $quality)
+    {
+        parent::__construct($sell_in, $quality);
+        $this->name = 'Aged Brie';
+    }
+
     public function updateQuality()
     {
         $this->sell_in -= 1;

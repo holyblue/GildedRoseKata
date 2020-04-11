@@ -6,6 +6,12 @@ namespace App;
 
 class BackstageItem extends Item
 {
+    public function __construct($sell_in, $quality)
+    {
+        parent::__construct($sell_in, $quality);
+        $this->name = 'Backstage passes to a TAFKAL80ETC concert';
+    }
+
     public function updateQuality()
     {
         $this->quality += 1;

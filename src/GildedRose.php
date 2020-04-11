@@ -13,6 +13,15 @@ final class GildedRose
 
     public static function createItem($itemName)
     {
+        $itemList = [
+            'Conjured' => ConjuredItem::class
+        ];
+
+        return new $itemList[$itemName]();
+    }
+
+    public function addItem($item) {
+        $this->items[] = $item;
     }
 
     public function updateQuality()
